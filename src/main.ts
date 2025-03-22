@@ -6,45 +6,50 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { appRouter } from './app.router';
+import { dataSource } from './database/data-source';
 
 dotenv.config();
 
-// -------------------------------------------------------------------------
-// Express server
-// -------------------------------------------------------------------------
+(async () => {
+  // -------------------------------------------------------------------------
+  // Express server
+  // -------------------------------------------------------------------------
 
-const app = express();
-const port = process.env.PORT;
+  const app = express();
+  const port = process.env.PORT;
 
-app.use(
-  helmet({
-    crossOriginEmbedderPolicy: true,
-    contentSecurityPolicy: {
-      directives: helmet.contentSecurityPolicy.getDefaultDirectives(),
-    },
-  }),
-);
+  await dataSource.initialize();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json({ limit: '5mb' }));
-app.use(morgan('dev'));
-app.use(cors());
+  app.use(
+    helmet({
+      crossOriginEmbedderPolicy: true,
+      contentSecurityPolicy: {
+        directives: helmet.contentSecurityPolicy.getDefaultDirectives(),
+      },
+    }),
+  );
 
-app.use('/', appRouter);
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json({ limit: '5mb' }));
+  app.use(morgan('dev'));
+  app.use(cors());
 
-app.listen(port, () => {
-  const url = `http://localhost:${process.env.PORT}`;
-  console.log(`Server running at ${url} 🚀`);
-});
+  app.use('/', appRouter);
 
-// -------------------------------------------------------------------------
-// Discord client
-// -------------------------------------------------------------------------
+  app.listen(port, () => {
+    const url = `http://localhost:${process.env.PORT}`;
+    console.log(`Server running at ${url} 🚀`);
+  });
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+  // -------------------------------------------------------------------------
+  // Discord client
+  // -------------------------------------------------------------------------
 
-client.once(Events.ClientReady, (readyClient) => {
-  console.log(`Logged in as ${readyClient.user.tag} 🤖`);
-});
+  const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-client.login(process.env.BOT_TOKEN);
+  client.once(Events.ClientReady, (readyClient) => {
+    console.log(`Logged in as ${readyClient.user.tag} 🤖`);
+  });
+
+  client.login(process.env.BOT_TOKEN);
+})();
