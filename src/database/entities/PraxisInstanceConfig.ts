@@ -12,13 +12,16 @@ export class PraxisInstanceConfig {
   id: string;
 
   @Column()
+  apiUrl: string;
+
+  @Column()
+  apiKey: string;
+
+  @Column()
   botApiKey: string;
 
   @Column()
-  praxisInstanceApiKey: string;
-
-  @Column()
-  praxisInstanceApiUrl: string;
+  serverConfigId: string;
 
   @CreateDateColumn()
   createdAt: Date;
