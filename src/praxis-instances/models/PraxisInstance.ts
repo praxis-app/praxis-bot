@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class PraxisInstanceConfig {
+export class PraxisInstance {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

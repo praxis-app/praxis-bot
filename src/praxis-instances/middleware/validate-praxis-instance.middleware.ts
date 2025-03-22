@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-export const validatePraxisInstanceConfig = (
+export const validatePraxisInstance = (
   req: Request,
   res: Response,
   next: NextFunction,

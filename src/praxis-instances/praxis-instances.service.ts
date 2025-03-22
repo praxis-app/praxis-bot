@@ -1,24 +1,22 @@
 import crypto from 'crypto';
 import { dataSource } from '../database/data-source';
-import { PraxisInstanceConfig } from '../database/entities/PraxisInstanceConfig';
+import { PraxisInstance } from './models/PraxisInstance';
 
-interface CreatePraxisInstanceConfigReq {
+interface RegisterPraxisInstanceReq {
   apiUrl: string;
   apiKey: string;
   serverConfigId: string;
 }
 
-const praxisInstanceConfigRepository =
-  dataSource.getRepository(PraxisInstanceConfig);
+const praxisInstanceRepository = dataSource.getRepository(PraxisInstance);
 
-export const createPraxisInstanceConfig = async (
-  req: CreatePraxisInstanceConfigReq,
+export const registerPraxisInstance = async (
+  req: RegisterPraxisInstanceReq,
 ) => {
   const { apiUrl, apiKey, serverConfigId } = req;
-
   const botApiKey = crypto.randomBytes(32).toString('hex');
 
-  const savedConfig = await praxisInstanceConfigRepository.save({
+  const savedConfig = await praxisInstanceRepository.save({
     apiUrl,
     apiKey,
     serverConfigId,
