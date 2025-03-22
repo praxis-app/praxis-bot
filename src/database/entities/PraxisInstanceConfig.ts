@@ -24,7 +24,7 @@ export class PraxisInstanceConfig {
   apiKey: string;
 
   /**
-   * The API key for the bot
+   * The API key for the Discord bot (self)
    */
   @Column()
   botApiKey: string;
