@@ -7,6 +7,9 @@
     "start": "ts-node src/main.ts",
     "start:dev": "nodemon --config ./nodemon.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "typeorm:gen": "npm run typeorm migration:generate -- -p -d ./src/database/data-source.ts",
+    "typeorm:run": "npm run typeorm migration:run -- -d ./src/database/data-source.ts",
     "build": "tsc"
   },
   "dependencies": {
@@ -15,7 +18,8 @@
     "dotenv": "^16.4.7",
     "express": "^5.0.1",
     "helmet": "^8.1.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "typeorm": "^0.3.14"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
