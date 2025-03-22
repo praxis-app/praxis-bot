@@ -8,10 +8,11 @@ export const validatePraxisInstance = (
   const { apiUrl, apiKey, serverConfigId } = req.body;
 
   if (!apiUrl || !apiKey || !serverConfigId) {
-    res.status(400).json({
-      error:
+    res
+      .status(400)
+      .send(
         'Missing required fields: apiUrl, apiKey, and serverConfigId are required',
-    });
+      );
     return;
   }
 
@@ -20,10 +21,11 @@ export const validatePraxisInstance = (
     typeof apiKey !== 'string' ||
     typeof serverConfigId !== 'string'
   ) {
-    res.status(400).json({
-      error:
+    res
+      .status(400)
+      .send(
         'Invalid data types: apiUrl, apiKey, and serverConfigId must be strings',
-    });
+      );
     return;
   }
 
