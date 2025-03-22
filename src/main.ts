@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { appRouter } from './app.router';
 
 dotenv.config();
 
@@ -29,9 +30,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(morgan('dev'));
 app.use(cors());
 
-app.get('/', (_req, res) => {
-  res.send('Hello World!');
-});
+app.use('/', appRouter);
 
 app.listen(port, () => {
   const url = `http://localhost:${process.env.PORT}`;
