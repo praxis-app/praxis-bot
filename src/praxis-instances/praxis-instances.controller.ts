@@ -9,8 +9,10 @@ export const registerPraxisInstance = async (req: Request, res: Response) => {
 };
 
 export const removePraxisInstance = async (req: Request, res: Response) => {
-  await praxisInstanceConfigsService.removePraxisInstance(req.body.botApiKey);
+  const apiKey = req.headers['x-api-key'] as string;
+  await praxisInstanceConfigsService.removePraxisInstance(apiKey);
+
   res.json({
-    message: `Praxis instance with API key ${req.body.botApiKey} removed`,
+    message: `Removed Praxis instance with API key ${apiKey}`,
   });
 };
