@@ -11,10 +11,6 @@ import { dataSource } from './database/data-source';
 dotenv.config();
 
 (async () => {
-  // -------------------------------------------------------------------------
-  // Express server
-  // -------------------------------------------------------------------------
-
   const app = express();
   const port = process.env.PORT;
 
@@ -41,15 +37,13 @@ dotenv.config();
     console.log(`Server running at ${url} 🚀`);
   });
 
-  // -------------------------------------------------------------------------
-  // Discord client
-  // -------------------------------------------------------------------------
+  const discordClient = new Client({
+    intents: [GatewayIntentBits.Guilds],
+  });
 
-  const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-  client.once(Events.ClientReady, (readyClient) => {
+  discordClient.once(Events.ClientReady, (readyClient) => {
     console.log(`Logged in as ${readyClient.user.tag} 🤖`);
   });
 
-  client.login(process.env.BOT_TOKEN);
+  discordClient.login(process.env.BOT_TOKEN);
 })();
