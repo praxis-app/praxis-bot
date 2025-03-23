@@ -1,8 +1,8 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -32,7 +32,7 @@ export class PraxisInstance {
   /**
    * The ID of the server config for the Praxis instance
    */
-  @Column()
+  @Column({ unique: true })
   serverConfigId: string;
 
   @CreateDateColumn()

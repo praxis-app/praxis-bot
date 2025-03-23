@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
-import { PraxisInstance } from '../praxis-instances/models/PraxisInstance';
+import { PraxisInstance } from '../praxis-instances/models/praxis-instance.entity';
 
 dotenv.config();
 

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import { dataSource } from '../database/data-source';
-import { PraxisInstance } from './models/PraxisInstance';
+import { PraxisInstance } from './models/praxis-instance.entity';
 import { RegisterPraxisInstanceReq } from './praxis-instances.types';
 
 const praxisInstanceRepository = dataSource.getRepository(PraxisInstance);
