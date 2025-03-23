@@ -20,6 +20,6 @@ export const registerPraxisInstance = async ({
   return savedConfig.botApiKey;
 };
 
-export const removePraxisInstance = async (apiKey: string) => {
-  await praxisInstanceRepository.delete({ apiKey });
+export const removePraxisInstance = async (id: string) => {
+  await praxisInstanceRepository.delete(id);
 };
