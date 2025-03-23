@@ -12,25 +12,25 @@ export class PraxisInstance {
   id: string;
 
   /**
-   * The URL of the Praxis instance
+   * URL of the Praxis instance
    */
-  @Column()
+  @Column({ unique: true })
   apiUrl: string;
 
   /**
-   * The API key for the Praxis instance
+   * API key used by the Praxis instance to authenticate its requests to the bot
    */
-  @Column()
+  @Column({ unique: true })
   apiKey: string;
 
   /**
-   * The API key for the Discord bot (self)
+   * API key used by the bot (self) to authenticate its requests to the Praxis instance
    */
-  @Column()
+  @Column({ unique: true })
   botApiKey: string;
 
   /**
-   * The ID of the server config for the Praxis instance
+   * ID of the server config for the Praxis instance
    */
   @Column({ unique: true })
   serverConfigId: string;
