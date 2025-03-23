@@ -13,6 +13,9 @@ dotenv.config();
 (async () => {
   const app = express();
   const port = process.env.PORT;
+  const discordClient = new Client({
+    intents: [GatewayIntentBits.Guilds],
+  });
 
   await dataSource.initialize();
 
@@ -37,13 +40,8 @@ dotenv.config();
     console.log(`Server running at ${url} 🚀`);
   });
 
-  const discordClient = new Client({
-    intents: [GatewayIntentBits.Guilds],
-  });
-
   discordClient.once(Events.ClientReady, (readyClient) => {
     console.log(`Logged in as ${readyClient.user.tag} 🤖`);
   });
-
   discordClient.login(process.env.BOT_TOKEN);
 })();
