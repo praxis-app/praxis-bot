@@ -1,4 +1,5 @@
 import express from 'express';
+import { authenticate } from '../auth/authenticate.middleware';
 import { validatePraxisInstance } from './middleware/validate-praxis-instance.middleware';
 import {
   registerPraxisInstance,
@@ -9,4 +10,4 @@ export const praxisInstancesRouter = express.Router();
 
 praxisInstancesRouter
   .post('/', validatePraxisInstance, registerPraxisInstance)
-  .delete('/', removePraxisInstance);
+  .delete('/', authenticate, removePraxisInstance);
