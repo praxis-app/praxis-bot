@@ -1,12 +1,7 @@
 import crypto from 'crypto';
 import { dataSource } from '../database/data-source';
 import { PraxisInstance } from './models/PraxisInstance';
-
-interface RegisterPraxisInstanceReq {
-  apiUrl: string;
-  apiKey: string;
-  serverConfigId: string;
-}
+import { RegisterPraxisInstanceReq } from './praxis-instances.types';
 
 const praxisInstanceRepository = dataSource.getRepository(PraxisInstance);
 
