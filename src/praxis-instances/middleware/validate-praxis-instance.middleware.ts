@@ -7,12 +7,16 @@ export const validatePraxisInstance = (
 ) => {
   const { apiUrl, apiKey, serverConfigId } = req.body;
 
-  if (!apiUrl || !apiKey || !serverConfigId) {
-    res
-      .status(400)
-      .send(
-        'Missing required fields: apiUrl, apiKey, and serverConfigId are required',
-      );
+  if (!apiUrl) {
+    res.status(400).send('apiUrl is required');
+    return;
+  }
+  if (!apiKey) {
+    res.status(400).send('apiKey is required');
+    return;
+  }
+  if (!serverConfigId) {
+    res.status(400).send('serverConfigId is required');
     return;
   }
 
