@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { RegisterPraxisInstanceReq } from '../praxis-instances.types';
+
 export const validatePraxisInstance = (
   req: Request,
   res: Response,

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import crypto from 'crypto';
 import { dataSource } from '../database/data-source';
 import { PraxisInstance } from './models/praxis-instance.entity';
@@ -18,6 +19,28 @@ export const registerPraxisInstance = async ({
     botApiKey,
   });
   return savedConfig.botApiKey;
+};
+
+export const checkPraxisInstanceConnection = async (id: string) => {
+  const praxisInstance = await praxisInstanceRepository.findOne({
+    where: { id },
+  });
+
+  if (!praxisInstance) {
+    throw new Error('Praxis instance not found');
+  }
+
+  const result = await axios.get(
+    `${praxisInstance.apiUrl}/api/integrations/health`,
+    {
+      headers: {
+        'x-api-key': praxisInstance.botApiKey,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  return result.data.status === 'healthy' && result.status === 200;
 };
 
 export const removePraxisInstance = async (id: string) => {
