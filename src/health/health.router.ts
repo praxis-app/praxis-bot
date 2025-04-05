@@ -1,7 +1,7 @@
 import express from 'express';
-import { authenticate } from '../auth/authenticate.middleware';
+import { authPraxisInstance } from '../praxis-instances/middleware/auth-praxis-instance.middleware';
 import { getHealth } from './health.controller';
 
 export const healthRouter = express.Router();
 
-healthRouter.get('/', authenticate, getHealth);
+healthRouter.get('/', authPraxisInstance, getHealth);

@@ -1,16 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import { dataSource } from '../database/data-source';
-import { PraxisInstance } from '../praxis-instances/models/praxis-instance.entity';
+import { dataSource } from '../../database/data-source';
+import { PraxisInstance } from '../models/praxis-instance.entity';
 
 const praxisInstanceRepository = dataSource.getRepository(PraxisInstance);
 
 /**
- * Authenticates requests from Praxis instances.
- *
- * This middleware checks for a valid API key in request headers and authenticates
- * the request, adding the Praxis instance to the request object if successful.
+ * Checks for a valid API key in request headers and authenticates the request,
+ * adding the Praxis instance to the request object if successful.
  */
-export const authenticate = async (
+export const authPraxisInstance = async (
   req: Request,
   res: Response,
   next: NextFunction,

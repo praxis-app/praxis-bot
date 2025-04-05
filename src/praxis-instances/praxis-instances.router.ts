@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../auth/authenticate.middleware';
+import { authPraxisInstance } from './middleware/auth-praxis-instance.middleware';
 import { validatePraxisInstance } from './middleware/validate-praxis-instance.middleware';
 import {
   checkPraxisInstanceConnection,
@@ -11,5 +11,5 @@ export const praxisInstancesRouter = express.Router();
 
 praxisInstancesRouter
   .post('/', validatePraxisInstance, registerPraxisInstance)
-  .get('/check-connection', authenticate, checkPraxisInstanceConnection)
-  .delete('/', authenticate, removePraxisInstance);
+  .get('/check-connection', authPraxisInstance, checkPraxisInstanceConnection)
+  .delete('/', authPraxisInstance, removePraxisInstance);
