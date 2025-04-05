@@ -3,7 +3,7 @@ import cors from 'cors';
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
 import express from 'express';
-import helmet from 'helmet';
+import helmet, { contentSecurityPolicy } from 'helmet';
 import morgan from 'morgan';
 import { appRouter } from './app.router';
 import { dataSource } from './database/data-source';
@@ -22,7 +22,7 @@ dotenv.config();
   app.use(
     helmet({
       contentSecurityPolicy: {
-        directives: helmet.contentSecurityPolicy.getDefaultDirectives(),
+        directives: contentSecurityPolicy.getDefaultDirectives(),
       },
       crossOriginEmbedderPolicy: true,
     }),
