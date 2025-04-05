@@ -18,7 +18,7 @@ export class PraxisInstance {
   apiUrl: string;
 
   /**
-   * API key used by the Praxis instance to authenticate its requests to the bot
+   * API key used by the Praxis instance to authenticate its requests to the bot (self)
    */
   @Column({ unique: true })
   apiKey: string;
