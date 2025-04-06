@@ -13,35 +13,7 @@ import { DiscordClient } from './shared/shared.types';
 
 dotenv.config();
 
-(async () => {
-  // Express server
-  const app = express();
-  const port = process.env.PORT;
-
-  await dataSource.initialize();
-
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: contentSecurityPolicy.getDefaultDirectives(),
-      },
-      crossOriginEmbedderPolicy: true,
-    }),
-  );
-
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json({ limit: '5mb' }));
-  app.use(morgan('dev'));
-  app.use(cors());
-
-  app.use('/', appRouter);
-
-  app.listen(port, () => {
-    const url = `http://localhost:${process.env.PORT}`;
-    console.log(`Server running at ${url} 🚀`);
-  });
-
-  // Discord client
+const initializeDiscordClient = () => {
   const discordClient = new Client({
     intents: [GatewayIntentBits.Guilds],
   }) as DiscordClient;
@@ -75,4 +47,37 @@ dotenv.config();
     console.log(`Logged in as ${readyClient.user.tag} 🤖`);
   });
   discordClient.login(process.env.BOT_TOKEN);
+};
+
+const initializeExpressServer = async () => {
+  const app = express();
+  const port = process.env.PORT;
+
+  await dataSource.initialize();
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: contentSecurityPolicy.getDefaultDirectives(),
+      },
+      crossOriginEmbedderPolicy: true,
+    }),
+  );
+
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json({ limit: '5mb' }));
+  app.use(morgan('dev'));
+  app.use(cors());
+
+  app.use('/', appRouter);
+
+  app.listen(port, () => {
+    const url = `http://localhost:${process.env.PORT}`;
+    console.log(`Server running at ${url} 🚀`);
+  });
+};
+
+(async () => {
+  await initializeExpressServer();
+  initializeDiscordClient();
 })();
