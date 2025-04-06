@@ -13,7 +13,7 @@ import { DiscordClient } from './shared/shared.types';
 
 dotenv.config();
 
-const initializeDiscordClient = () => {
+const initDiscordClient = () => {
   const discordClient = new Client({
     intents: [GatewayIntentBits.Guilds],
   }) as DiscordClient;
@@ -49,7 +49,7 @@ const initializeDiscordClient = () => {
   discordClient.login(process.env.BOT_TOKEN);
 };
 
-const initializeExpressServer = async () => {
+const initExpressServer = async () => {
   const app = express();
   const port = process.env.PORT;
 
@@ -78,6 +78,6 @@ const initializeExpressServer = async () => {
 };
 
 (async () => {
-  await initializeExpressServer();
-  initializeDiscordClient();
+  await initExpressServer();
+  initDiscordClient();
 })();
