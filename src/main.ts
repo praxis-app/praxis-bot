@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
 import express from 'express';
 import helmet, { contentSecurityPolicy } from 'helmet';
@@ -28,7 +28,7 @@ const initDiscordClient = () => {
     const commandsPath = path.join(foldersPath, folder);
     const commandFiles = fs
       .readdirSync(commandsPath)
-      .filter((file) => file.endsWith('.ts') || file.endsWith('.js'));
+      .filter((file) => file.endsWith('.js') || file.endsWith('.ts'));
 
     for (const file of commandFiles) {
       const filePath = path.join(commandsPath, file);
@@ -44,42 +44,22 @@ const initDiscordClient = () => {
     }
   }
 
-  discordClient.once(Events.ClientReady, (readyClient) => {
-    console.log(`Logged in as ${readyClient.user.tag} 🤖`);
-  });
+  const eventsPath = path.join(__dirname, 'events');
+  const eventFiles = fs
+    .readdirSync(eventsPath)
+    .filter((file) => file.endsWith('.js') || file.endsWith('.ts'));
+
+  for (const file of eventFiles) {
+    const filePath = path.join(eventsPath, file);
+    const event = require(filePath);
+    if (event.once) {
+      discordClient.once(event.name, (...args) => event.execute(...args));
+    } else {
+      discordClient.on(event.name, (...args) => event.execute(...args));
+    }
+  }
+
   discordClient.login(process.env.BOT_TOKEN);
-
-  // Handle interactions and execute commands
-  discordClient.on(Events.InteractionCreate, async (interaction) => {
-    if (!interaction.isChatInputCommand()) {
-      return;
-    }
-    const command = discordClient.commands.get(interaction.commandName);
-    if (!command) {
-      console.error(
-        `No command matching ${interaction.commandName} was found.`,
-      );
-      return;
-    }
-
-    try {
-      await command.execute(interaction);
-    } catch (error) {
-      console.error(error);
-
-      if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({
-          content: 'There was an error while executing this command!',
-          ephemeral: true,
-        });
-      } else {
-        await interaction.reply({
-          content: 'There was an error while executing this command!',
-          ephemeral: true,
-        });
-      }
-    }
-  });
 };
 
 const initExpressServer = async () => {
