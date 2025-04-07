@@ -49,6 +49,7 @@ const initDiscordClient = () => {
     .readdirSync(eventsPath)
     .filter((file) => file.endsWith('.js') || file.endsWith('.ts'));
 
+  // Load events
   for (const file of eventFiles) {
     const filePath = path.join(eventsPath, file);
     const event = require(filePath);
