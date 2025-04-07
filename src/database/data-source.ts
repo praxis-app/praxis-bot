@@ -1,3 +1,5 @@
+// TODO: Add entity for proposal channel registration
+
 import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
 import { PraxisInstance } from '../praxis-instances/models/praxis-instance.entity';
