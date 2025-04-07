@@ -12,7 +12,7 @@ const foldersPath = path.join(__dirname, 'src/commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
-  // Get all command files from the commands directory
+  // Get all command files from the command folder
   const commandsPath = path.join(foldersPath, folder);
   const commandFiles = fs
     .readdirSync(commandsPath)
