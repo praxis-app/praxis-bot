@@ -3,10 +3,10 @@ import cors from 'cors';
 import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
 import * as dotenv from 'dotenv';
 import express from 'express';
-import fs from 'fs';
 import helmet, { contentSecurityPolicy } from 'helmet';
 import morgan from 'morgan';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { appRouter } from './app.router';
 import { dataSource } from './database/data-source';
 import { DiscordClient } from './shared/shared.types';
@@ -47,6 +47,37 @@ const initDiscordClient = () => {
     console.log(`Logged in as ${readyClient.user.tag} 🤖`);
   });
   discordClient.login(process.env.BOT_TOKEN);
+
+  discordClient.on(Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isChatInputCommand()) {
+      return;
+    }
+    const command = discordClient.commands.get(interaction.commandName);
+    if (!command) {
+      console.error(
+        `No command matching ${interaction.commandName} was found.`,
+      );
+      return;
+    }
+
+    try {
+      await command.execute(interaction);
+    } catch (error) {
+      console.error(error);
+
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({
+          content: 'There was an error while executing this command!',
+          ephemeral: true,
+        });
+      } else {
+        await interaction.reply({
+          content: 'There was an error while executing this command!',
+          ephemeral: true,
+        });
+      }
+    }
+  });
 };
 
 const initExpressServer = async () => {
