@@ -8,6 +8,7 @@
     "start:dev": "nodemon --config ./nodemon.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "deploy-commands": "ts-node deploy-commands.ts",
     "typeorm:gen": "npm run typeorm migration:generate -- -p -d ./src/database/data-source.ts",
     "typeorm:run": "npm run typeorm migration:run -- -d ./src/database/data-source.ts",
     "build": "tsc"
